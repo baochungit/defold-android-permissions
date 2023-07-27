@@ -113,7 +113,7 @@ void AndroidPermissions_AddPermissionsFragment(JNIEnv* env) {
     jclass jclass_PermissionsFragment = djni::GetClass(env, "com.asfdfdfd.defold.android.permissions.PermissionsFragment");
     jmethodID jmethodID_PermissionsFragment_initialize = env->GetStaticMethodID(jclass_PermissionsFragment, "initialize", "(Landroid/app/Activity;)V");
     jobject jobject_NativeActivity = dmGraphics::GetNativeAndroidActivity();
-    env->CallStaticObjectMethod(jclass_PermissionsFragment, jmethodID_PermissionsFragment_initialize, jobject_NativeActivity);        
+    env->CallStaticVoidMethod(jclass_PermissionsFragment, jmethodID_PermissionsFragment_initialize, jobject_NativeActivity);
     env->DeleteLocalRef(jclass_PermissionsFragment);
 }
 

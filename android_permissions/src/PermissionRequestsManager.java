@@ -6,15 +6,14 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.System;
 
-class PermissionRequestsManager {
-            
+public class PermissionRequestsManager {
     private static final AtomicInteger REQUEST_CODE = new AtomicInteger(0);
 
     private static PermissionRequestsManager permissionRequestsManager;

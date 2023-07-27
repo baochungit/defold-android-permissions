@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.os.Bundle;
 import java.lang.System;
 
-class PermissionsFragment extends Fragment {
+public class PermissionsFragment extends Fragment {
     
     public static final String TAG = PermissionsFragment.class.getSimpleName();
 
