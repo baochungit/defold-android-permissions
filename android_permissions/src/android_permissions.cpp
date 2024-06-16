@@ -7,7 +7,7 @@
 namespace {
     struct PermissionRequestContext {
         lua_State* m_LuaState;
-        int m_CallbackRef;        
+        int m_CallbackRef;
         PermissionRequestContext(lua_State* L, int callbackRef) : m_LuaState(L), m_CallbackRef(callbackRef) {
         }
     };
@@ -18,7 +18,7 @@ static int AndroidPermissions_PermissionDenied = 0;
 
 bool AndroidPermissions_IsPermissionGranted(const char* permission) {
     JNIEnv* env = djni::env();
-    jclass jclass_ContextCompat = djni::GetClass(env, "android.support.v4.content.ContextCompat");
+    jclass jclass_ContextCompat = djni::GetClass(env, "androidx.core.content.ContextCompat");
     jmethodID jmethodID_ContextCompat_checkSelfPermission = env->GetStaticMethodID(jclass_ContextCompat, "checkSelfPermission", "(Landroid/content/Context;Ljava/lang/String;)I");
     jobject jobject_NativeActivity = dmGraphics::GetNativeAndroidActivity();
     jstring jstring_Permission = env->NewStringUTF(permission);
@@ -33,21 +33,21 @@ void AndroidPermissions_RequestPermission(const char** permissions, const size_t
     jclass jclass_PermissionRequestsManager = djni::GetClass(env, "com.asfdfdfd.defold.android.permissions.PermissionRequestsManager");
     jmethodID permissionRequestManagerGetInstanceMethod = env->GetStaticMethodID(jclass_PermissionRequestsManager, "getInstance", "()Lcom/asfdfdfd/defold/android/permissions/PermissionRequestsManager;");
     jmethodID jmethodID_PermissionRequestsManager_requestPermissions = env->GetMethodID(jclass_PermissionRequestsManager, "requestPermissions", "(Landroid/app/Activity;[Ljava/lang/String;J)V");      
-    jclass jclass_String = djni::GetClass(env, "java.lang.String");    
-    jobjectArray jobjectArray_Permissions = env->NewObjectArray(permissionsCount, jclass_String, NULL); 
+    jclass jclass_String = djni::GetClass(env, "java.lang.String");
+    jobjectArray jobjectArray_Permissions = env->NewObjectArray(permissionsCount, jclass_String, NULL);
     env->DeleteLocalRef(jclass_String);
-    
+
     for(size_t permissionIndex = 0; permissionIndex < permissionsCount; permissionIndex++) {
         jstring jstring_Permission = env->NewStringUTF(permissions[permissionIndex]);
         env->SetObjectArrayElement(jobjectArray_Permissions, permissionIndex, jstring_Permission);
-        env->DeleteLocalRef(jstring_Permission);            
+        env->DeleteLocalRef(jstring_Permission);
     }
-    
+
     jobject jobject_NativeActivity = dmGraphics::GetNativeAndroidActivity();
 
     PermissionRequestContext* permissionRequestContext = new PermissionRequestContext(L, callbackRef);
     jlong permissionRequestContextPtr = (jlong)permissionRequestContext;
-    
+
     jobject jobject_PermissionRequestsManager = env->CallStaticObjectMethod(jclass_PermissionRequestsManager, permissionRequestManagerGetInstanceMethod);
     env->CallVoidMethod(jobject_PermissionRequestsManager, jmethodID_PermissionRequestsManager_requestPermissions, jobject_NativeActivity, jobjectArray_Permissions, permissionRequestContextPtr);
     env->DeleteLocalRef(jobject_PermissionRequestsManager);
@@ -68,18 +68,18 @@ void AndroidPermissions_onRequestPermissionsResult(JNIEnv* env, jobject, jobject
     luaL_unref(L, LUA_REGISTRYINDEX, callbackRef);
 
     jint* grantResults = env->GetIntArrayElements(jintArray_GrantResults, NULL);
-    
+
     lua_createtable(L, 0, resultsCount);    
     for (int permissionIndex = 0; permissionIndex < resultsCount; permissionIndex++) {
         jstring jstring_Permission = (jstring)env->GetObjectArrayElement(jobjectArray_Permissions, permissionIndex);
         const char* permission = env->GetStringUTFChars(jstring_Permission, NULL);
 
         lua_pushstring(L, permission);
-        lua_pushinteger(L, grantResults[permissionIndex]);               
+        lua_pushinteger(L, grantResults[permissionIndex]);
         lua_settable(L, -3);
                 
         env->ReleaseStringUTFChars(jstring_Permission, permission);
-        env->DeleteLocalRef(jstring_Permission);        
+        env->DeleteLocalRef(jstring_Permission);
     }
 
     env->ReleaseIntArrayElements(jintArray_GrantResults, grantResults, JNI_ABORT);
@@ -89,7 +89,7 @@ void AndroidPermissions_onRequestPermissionsResult(JNIEnv* env, jobject, jobject
 
 bool AndroidPermissions_ShouldShowRequestPermissionRationale(const char* permission) {
     JNIEnv* env = djni::env();  
-    jclass jclass_ActivityCompat = djni::GetClass(env, "android.support.v4.app.ActivityCompat");
+    jclass jclass_ActivityCompat = djni::GetClass(env, "androidx.core.app.ActivityCompat");
     jmethodID jmethodID_ActivityCompat_shouldShowRequestPermissionRationale = env->GetStaticMethodID(jclass_ActivityCompat, "shouldShowRequestPermissionRationale", "(Landroid/app/Activity;Ljava/lang/String;)Z");
     jobject jobject_NativeActivity = dmGraphics::GetNativeAndroidActivity();
     jstring jstring_Permission = env->NewStringUTF(permission);

@@ -15,21 +15,21 @@ static int Lua_IsPermissionGranted(lua_State* L) {
 
 static int Lua_RequestPermission(lua_State* L) {    
     int permissionsCount = lua_objlen(L, 1);    
-        
+
     const char** permissionsArray = (const char**)malloc(sizeof(const char*) * permissionsCount);
-    
+
     for (int permissionIndex = 0; permissionIndex < permissionsCount; permissionIndex++) {
         lua_rawgeti(L, 1, permissionIndex + 1);
         permissionsArray[permissionIndex] = lua_tostring(L, -1);
         lua_pop(L, 1);
     }
-    
+
     int callbackRef = luaL_ref(L, LUA_REGISTRYINDEX); 
     // TODO: Clear memory?
     AndroidPermissions_RequestPermission(permissionsArray, permissionsCount, L, callbackRef);
-    
+
     free(permissionsArray);
-            
+
     return 0;
 }
 
@@ -54,10 +54,10 @@ static void LuaInit(lua_State* L) {
     #define SETCONSTANT(name, val) \
             lua_pushnumber(L, (lua_Number) val); \
             lua_setfield(L, -2, #name);
-        
+
     SETCONSTANT(PERMISSION_GRANTED, AndroidPermissions_PermissionGranted);
     SETCONSTANT(PERMISSION_DENIED, AndroidPermissions_PermissionDenied);
-    
+
     lua_pop(L, 1);
     assert(top == lua_gettop(L));
 }
