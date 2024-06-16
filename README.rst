@@ -3,14 +3,10 @@ Defold Android Permissions
 
 This is `Native Extension <https://www.defold.com/manuals/extensions/>`_ for the `Defold Game Engine <https://www.defold.com>`_ that adds support for `Android Runtime Permissions <https://developer.android.com/guide/topics/permissions/overview>`_.
 
-.. raw:: html
-
-    <a href="https://www.patreon.com/bePatron?u=2321396"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patron!"/></a>
-
 Setup
 =====
 
-You can use extension in your own project by adding this project as a `Defold library dependency <https://www.defold.com/manuals/libraries/>`_. Open your game.project file and in the dependencies field under project add https://github.com/asfdfdfd/defold-android-permissions/archive/master.zip or point to the ZIP file of a `specific release <https://github.com/asfdfdfd/defold-android-permissions/releases>`_.
+You can use extension in your own project by adding this project as a `Defold library dependency <https://www.defold.com/manuals/libraries/>`_. Open your game.project file and in the dependencies field under project add https://github.com/baochungit/defold-android-permissions/archive/master.zip or point to the ZIP file of a `specific release <https://github.com/baochungit/defold-android-permissions/releases>`_.
 
 Implementation details
 ======================
